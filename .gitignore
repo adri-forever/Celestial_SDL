@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/woodeneye-008/woodeneye-008.vcxproj
+/woodeneye-008/woodeneye-008.vcxproj.filters
