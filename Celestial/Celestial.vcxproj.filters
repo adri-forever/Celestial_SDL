@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\fonts">
+      <UniqueIdentifier>{0814e398-5b69-4019-b70c-cc085794177a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty">
+      <UniqueIdentifier>{8f1b87d8-e904-4b39-a5df-9e4aecf7d669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\bin">
+      <UniqueIdentifier>{db43de5d-2942-4672-a4b9-d9336853ee95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\evilfuckingskeleton.png">
@@ -23,42 +32,87 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\Celestial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ECS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TextureManager.cpp">
+    <ClCompile Include="src\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject.cpp">
+    <ClCompile Include="src\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="assets\font\segoeui.ttf" />
-    <Font Include="assets\font\segoeuib.ttf" />
-    <Font Include="assets\font\segoeuii.ttf" />
-    <Font Include="assets\font\segoeuil.ttf" />
-    <Font Include="assets\font\segoeuisl.ttf" />
-    <Font Include="assets\font\segoeuiz.ttf" />
-    <Font Include="assets\font\seguibl.ttf" />
-    <Font Include="assets\font\seguibli.ttf" />
-    <Font Include="assets\font\seguili.ttf" />
-    <Font Include="assets\font\seguisb.ttf" />
-    <Font Include="assets\font\seguisbi.ttf" />
-    <Font Include="assets\font\seguisli.ttf" />
+    <Font Include="assets\font\seguisli.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\segoeui.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\segoeuib.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\segoeuii.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\segoeuil.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\segoeuisl.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\segoeuiz.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\seguibl.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\seguibli.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\seguili.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\seguisb.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="assets\font\seguisbi.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TODO.md" />
+    <None Include="thirdparty\bin\SDL3.dll">
+      <Filter>thirdparty\bin</Filter>
+    </None>
+    <None Include="thirdparty\bin\SDL3_image.dll">
+      <Filter>thirdparty\bin</Filter>
+    </None>
+    <None Include="thirdparty\bin\SDL3_ttf.dll">
+      <Filter>thirdparty\bin</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ECS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="requirements.txt" />
   </ItemGroup>
 </Project>

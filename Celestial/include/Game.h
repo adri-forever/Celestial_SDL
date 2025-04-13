@@ -44,6 +44,8 @@ public:
 	bool running() { return isRunning; };
 	Vector2<int> getWindowSize() { return windowSize; };
 
+	SDL_Renderer* getRenderer() { return renderer; }
+
 private:
 	bool isRunning;
 	Vector2<int> windowSize;

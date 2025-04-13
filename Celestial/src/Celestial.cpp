@@ -9,7 +9,7 @@ Game* game = nullptr;
 int main(int argc, char* argv[]) {
 	const int framerate = 120; // FPS
 	const int framelength = 1000 / framerate; // ms
-	
+
 	Uint32 frameStart;
 	int frameTime;
 

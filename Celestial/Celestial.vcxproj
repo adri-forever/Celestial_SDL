@@ -113,6 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,6 +121,10 @@
       <AdditionalDependencies>SDL3.lib;SDL3_image.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "$(ProjectDir)thirdparty\bin\*.dll" "$(OutDir)"
+xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -144,12 +149,8 @@
     <Image Include="assets\tyler1.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\TextureManager.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\Celestial.cpp" />
+    <ClCompile Include="src\ECS.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
@@ -169,10 +170,19 @@
     <Font Include="assets\font\seguisli.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SDL3.dll" />
-    <None Include="SDL3_image.dll" />
-    <None Include="SDL3_ttf.dll" />
+    <None Include="thirdparty\bin\SDL3.dll" />
+    <None Include="thirdparty\bin\SDL3_image.dll" />
+    <None Include="thirdparty\bin\SDL3_ttf.dll" />
     <None Include="TODO.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ECS.h" />
+    <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\GameObject.h" />
+    <ClInclude Include="include\TextureManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="requirements.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

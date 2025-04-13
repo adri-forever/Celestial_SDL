@@ -11,6 +11,7 @@ public:
 
 	static SDL_Texture* CreateText(const char* text, TTF_Font* font, SDL_Color color, SDL_Renderer* ren);
 	
+	static void Draw(SDL_Texture* tex, SDL_FRect src, SDL_FRect dest, SDL_Renderer* renderer);
 };
 
 #endif //TextureManager_h

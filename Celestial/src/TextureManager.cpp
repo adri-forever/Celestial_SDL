@@ -15,3 +15,7 @@ SDL_Texture* TextureManager::CreateText(const char* text, TTF_Font* font, SDL_Co
 
 	return tex;
 }
+
+void TextureManager::Draw(SDL_Texture* tex, SDL_FRect src, SDL_FRect dest, SDL_Renderer* renderer) {
+	SDL_RenderTexture(renderer, tex, &src, &dest);
+}
