@@ -1,10 +1,11 @@
-#pragma once
+/*
+DEPRECATED OBJECT CLASS IN FAVOR OF ECS
+*/
+
 #ifndef GameObject_h
 #define GameObject_h
 
-#include "Game.h"
-#include "TextureManager.h"
-#include <iostream>
+#include <SDL3/SDL.h>
 
 class Game;
 

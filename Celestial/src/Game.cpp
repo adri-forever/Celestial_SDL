@@ -1,5 +1,14 @@
 #include "Game.h"
 
+//TextureManager textureManager;
+
+SDL_Renderer* Game::renderer = nullptr; //this tells the compiler it needs to exist
+EntityManager entityManager;
+SDL_Event Game::event;
+
+//Wacky init
+auto& player(entityManager.addEntity());
+
 Game::Game() {}
 Game::~Game() {}
 
@@ -9,7 +18,7 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 		isRunning = false;
 	} else {
 		std::cout << "Systems initialized" << std::endl;
-		windowSize = { width, height };
+		windowSize = Vector2<int>(width, height);
 		window = SDL_CreateWindow(title, width, height, flags);
 		if (window) {
 			std::cout << "Window created" << std::endl;
@@ -25,7 +34,17 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 
 		loadFont();
 
-		loadEntities();
+		player.addComponent<TransformComponent>(100, 100);
+		//player.getComponent<PositionComponent>().setPos(0, 0);
+
+		SDL_Color color{ 0xFF, 0xFF, 0xFF, 0xFF };
+
+		/*player.addComponent<TextureComponent>();
+		tex = TextureManager::createText("Lo", font, color);
+		player.getComponent<TextureComponent>().setTexture(tex);*/
+		player.addComponent<SpriteComponent>("assets/tyler1.png");
+		player.addComponent<KeyboardController>();
+		//player.addComponent<TextComponent>("Evil fucking skeleton!", font, color);
 	}
 }
 
@@ -41,36 +60,7 @@ void Game::loadFont() {
 	}
 }
 
-void Game::loadEntities() {
-	GameObject* enemy = new GameObject(this, renderer);
-	enemy->setTexture(TextureManager::LoadTextureFile("assets/evilfuckingskeleton.png", renderer));
-	insertEntity(enemy);
-
-	GameObject* player = new GameObject(this, renderer);
-	player->setTexture(TextureManager::LoadTextureFile("assets/tyler1.png", renderer));
-	insertEntity(player);
-
-	SDL_Color txtcolor = { 0xFF, 0x80, 0xFF, 0x80 };
-	GameObject* text = new GameObject(this, renderer);
-	text->setTexture(TextureManager::CreateText("Evil!", font, txtcolor, renderer));
-	insertEntity(text);
-}
-
-void Game::cleanEntities() {
-	for (int i = 0; i < EntityCount; i++) {
-		delete Entities[i];
-	}
-	EntityCount = 0;
-	std::cout << "Entities cleaned" << std::endl;
-}
-
-void Game::insertEntity(GameObject* entity) {
-	Entities[EntityCount] = entity;
-	EntityCount++;
-}
-
 void Game::handleEvents() {
-	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {
 		case SDL_EVENT_QUIT:
@@ -78,8 +68,8 @@ void Game::handleEvents() {
 			break;
 
 		case SDL_EVENT_WINDOW_RESIZED:
-			windowSize = { event.window.data1, event.window.data2 };
-			std::cout << windowSize.x << " ; " << windowSize.y << std::endl;
+			windowSize.set(event.window.data1, event.window.data2);
+			std::cout << windowSize << std::endl;
 			break;
 
 		default:
@@ -88,23 +78,15 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-	for (int i = 0; i < EntityCount; i++) {
-		Entities[i]->Update();
-	}
-
-	//Simulate lag (frame takes too much time to compute)
-	/*if (500 < count && count < 600) {
-		SDL_Delay(75);
-	}*/
+	entityManager.refresh();
+	entityManager.update();
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
 	//
 
-	for (int i = 0; i < EntityCount; i++) {
-		Entities[i]->Render();
-	}
+	entityManager.render();
 
 	//
 	SDL_RenderPresent(renderer);
@@ -112,7 +94,7 @@ void Game::render() {
 
 void Game::clean() {
 
-	cleanEntities();
+	//cleanEntities();
 	
 	TTF_CloseFont(font);
 	TTF_Quit();

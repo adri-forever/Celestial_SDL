@@ -1,4 +1,3 @@
-#pragma once
 #ifndef Game_h
 #define Game_h
 
@@ -8,21 +7,18 @@
 #include <stdio.h>
 #include <iostream>
 
+#include "utils/Vector2.h"
 #include "TextureManager.h"
-#include "GameObject.h"
-
-
-//Forward declarations
-class GameObject;
-
-//
-template <typename T>
-struct Vector2 {
-	T x;
-	T y;
-};
+#include "ECS/Components.h"
 
 class Game {
+private:
+	bool isRunning;
+	Vector2<int> windowSize;
+	SDL_Window* window;
+
+	TTF_Font* font{ nullptr };
+
 public:
 	Game();
 	~Game();
@@ -32,32 +28,15 @@ public:
 
 	void loadFont();
 
-	void loadEntities();
-	void cleanEntities();
-
-	void insertEntity(GameObject* entity);
-
 	void handleEvents();
 	void update();
 	void render();
 
-	bool running() { return isRunning; };
-	Vector2<int> getWindowSize() { return windowSize; };
+	bool running() const { return isRunning; };
+	Vector2<int> getWindowSize() const { return windowSize; };
 
-	SDL_Renderer* getRenderer() { return renderer; }
-
-private:
-	bool isRunning;
-	Vector2<int> windowSize;
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-
-	TTF_Font* font{ nullptr };
-
-	GameObject* Entities[64];
-	int EntityCount = 0;
-
-	int count = 0;
+	static SDL_Renderer* renderer;
+	static SDL_Event event;
 };
 
 #endif //Game_h

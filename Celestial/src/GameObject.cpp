@@ -1,5 +1,8 @@
-#pragma once
 #include "GameObject.h"
+
+#include "Game.h"
+#include "TextureManager.h"
+#include <iostream>
 
 GameObject::GameObject(Game* g, SDL_Renderer* ren) {
 	renderer = ren;
@@ -32,14 +35,6 @@ void GameObject::Update() {
 		windowSize = game->getWindowSize();
 	} else {
 		windowSize = { 1280, 720 };
-	}
-	xpos %= windowSize.x;
-	ypos %= windowSize.y;
-	if (xpos < 0) {
-		xpos += windowSize.x;
-	}
-	if (ypos < 0) {
-		ypos += windowSize.y;
 	}
 
 	srcRect.h = objTexture->h;

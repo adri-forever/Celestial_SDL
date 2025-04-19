@@ -125,6 +125,9 @@
       <Command>xcopy /Y /D "$(ProjectDir)thirdparty\bin\*.dll" "$(OutDir)"
 xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>taskkill /f /fi "imagename eq $(TargetFileName)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -150,10 +153,15 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Celestial.cpp" />
-    <ClCompile Include="src\ECS.cpp" />
+    <ClCompile Include="src\ECS\ECS.cpp" />
+    <ClCompile Include="src\ECS\KeyBoardController.cpp" />
+    <ClCompile Include="src\ECS\SpriteComponent.cpp" />
+    <ClCompile Include="src\ECS\TextComponent.cpp" />
+    <ClCompile Include="src\ECS\TextureComponent.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
+    <ClCompile Include="src\utils\Vector2_double.cpp" />
+    <ClCompile Include="src\utils\Vector3_double.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\font\segoeui.ttf" />
@@ -176,10 +184,18 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     <None Include="TODO.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ECS.h" />
+    <ClInclude Include="include\ECS\Components.h" />
+    <ClInclude Include="include\ECS\ECS.h" />
+    <ClInclude Include="include\ECS\KeyboardController.h" />
+    <ClInclude Include="include\ECS\TransformComponent.h" />
+    <ClInclude Include="include\ECS\SpriteComponent.h" />
+    <ClInclude Include="include\ECS\TextComponent.h" />
+    <ClInclude Include="include\ECS\TextureComponent.h" />
     <ClInclude Include="include\Game.h" />
-    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\TextureManager.h" />
+    <ClInclude Include="include\utils\Vector2.h" />
+    <ClInclude Include="include\utils\Vector2_double.h" />
+    <ClInclude Include="include\utils\Vector3_double.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="requirements.txt" />

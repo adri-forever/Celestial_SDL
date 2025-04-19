@@ -1,17 +1,16 @@
-#pragma once
 #ifndef TextureManager_h
 #define TextureManager_h
 
-#include "Game.h"
-#include <string>
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 class TextureManager {
 public:
-	static SDL_Texture* LoadTextureFile(const char* fileName, SDL_Renderer* renderer);
+	static SDL_Texture* loadTextureFile(const char* fileName);
 
-	static SDL_Texture* CreateText(const char* text, TTF_Font* font, SDL_Color color, SDL_Renderer* ren);
+	static SDL_Texture* createText(const char* text, TTF_Font* font, SDL_Color color);
 	
-	static void Draw(SDL_Texture* tex, SDL_FRect src, SDL_FRect dest, SDL_Renderer* renderer);
+	static void renderTexture(SDL_Texture* tex, SDL_FRect src, SDL_FRect dest);
 };
 
 #endif //TextureManager_h
