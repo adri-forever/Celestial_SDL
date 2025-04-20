@@ -66,9 +66,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="SDL_links.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="SDL_links.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,6 +139,7 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,6 +149,10 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
       <AdditionalDependencies>SDL3.lib;SDL3_image.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "$(ProjectDir)thirdparty\bin\*.dll" "$(OutDir)"
+xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Image Include="assets\evilfuckingskeleton.png" />
@@ -153,7 +160,9 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Celestial.cpp" />
+    <ClCompile Include="src\ECS\CircleComponent.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
+    <ClCompile Include="src\ECS\FilledCircleComponent.cpp" />
     <ClCompile Include="src\ECS\KeyBoardController.cpp" />
     <ClCompile Include="src\ECS\SpriteComponent.cpp" />
     <ClCompile Include="src\ECS\TextComponent.cpp" />
@@ -184,8 +193,10 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     <None Include="TODO.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ECS\CircleComponent.h" />
     <ClInclude Include="include\ECS\Components.h" />
     <ClInclude Include="include\ECS\ECS.h" />
+    <ClInclude Include="include\ECS\FilledCircleComponent.h" />
     <ClInclude Include="include\ECS\KeyboardController.h" />
     <ClInclude Include="include\ECS\TransformComponent.h" />
     <ClInclude Include="include\ECS\SpriteComponent.h" />

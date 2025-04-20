@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 		frameStart = SDL_GetTicks();
 
 		game->handleEvents();
-		game->update();
+		game->update(framelength);
 		game->render();
 
 		frameTime = SDL_GetTicks() - frameStart;

@@ -6,8 +6,9 @@
 class TransformComponent;
 
 class KeyboardController : public Component {
-private:
+protected:
 	TransformComponent* transform;
+
 public:
 	void init() override;
 

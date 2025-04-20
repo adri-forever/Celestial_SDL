@@ -5,7 +5,7 @@
 #include "utils/Vector2_double.h"
 
 class TransformComponent : public Component {
-private:
+protected:
 	Vector2_double position;
 	Vector2_double velocity;
 
@@ -21,6 +21,7 @@ public:
 		position.setX(x);
 		position.setY(y);
 	}
+	~TransformComponent() = default;
 
 	void init() override {
 		velocity.setX(0);

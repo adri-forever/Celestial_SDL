@@ -11,8 +11,8 @@ private:
 	T y = T();
 
 public:
-	Vector2() {};
-	Vector2(T ix, T iy) {
+	Vector2() {}
+	Vector2(T ix, T iy) : x(ix), y(iy) {
 		x = ix;
 		y = iy;
 	}

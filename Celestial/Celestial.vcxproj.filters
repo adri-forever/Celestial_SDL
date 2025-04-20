@@ -62,6 +62,12 @@
     <ClCompile Include="src\utils\Vector3_double.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ECS\CircleComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ECS\FilledCircleComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\font\seguisli.ttf">
@@ -148,6 +154,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\utils\Vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ECS\CircleComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ECS\FilledCircleComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

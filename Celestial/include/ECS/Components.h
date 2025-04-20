@@ -10,5 +10,7 @@
 #include "SpriteComponent.h"
 #include "TextComponent.h"
 #include "KeyboardController.h"
+#include "CircleComponent.h"
+#include "FilledCircleComponent.h"
 
 #endif // !Components_h
