@@ -19,8 +19,7 @@ int main(int argc, char* argv[]) {
 
 		game->handleEvents();
 		game->update(framelength);
-		//game->render();
-		game->renderGL();
+		game->render();
 
 		frameTime = SDL_GetTicks() - frameStart;
 		if (framelength > frameTime) {

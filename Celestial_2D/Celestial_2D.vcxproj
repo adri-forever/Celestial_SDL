@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8f5b277c-8609-4b7b-bb58-654931362e3e}</ProjectGuid>
+    <ProjectGuid>{889D136F-8289-4609-A219-9277B4A012AC}</ProjectGuid>
     <RootNamespace>CelestialSDL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Celestial</ProjectName>
+    <ProjectName>Celestial_2D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

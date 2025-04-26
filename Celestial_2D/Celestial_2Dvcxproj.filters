@@ -124,7 +124,6 @@
     <None Include="thirdparty\bin\SDL3_gfx.dll">
       <Filter>thirdparty\bin</Filter>
     </None>
-    <None Include="SDL_links.props" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ECS\ECS.h">

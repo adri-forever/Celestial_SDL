@@ -48,31 +48,6 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 		if (renderer) {
 			std::cout << "Renderer created" << std::endl;
 		}
-		 
-		if ((flags & SDL_WINDOW_OPENGL) != 0) {
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-			SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-			glContext = SDL_GL_CreateContext(window);
-			if (glContext) {
-				std::cout << "OpenGL context created" << std::endl;
-			} else {
-				std::cout << "OpenGL context creation error: " << SDL_GetError() << std::endl;
-			}
-			SDL_GL_SetSwapInterval(1); //VSync
-
-			SDL_GL_MakeCurrent(window, glContext);
-			
-			if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
-				std::cout << "GLAD loading error: " << SDL_GetError() << std::endl;
-			}
-		} else {
-			std::cout << "OpenGL not requested" << std::endl;
-		}
 
 		isRunning = true;
 
@@ -105,99 +80,7 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 			e.addComponent<TransformComponent>(10 * i, 10 * i);
 			e.addComponent<SpriteComponent>("assets/tyler1.png");
 		}*/
-
-		setupTriangle();
 	}
-}
-
-void Game::setupTriangle() {
-	//GL "simple" triangle init
-		//Define triangle
-	float vertices[] = {
-		//Pos		//Colors
-		.0f, .0f,	1.f, 0.f, 0.f,
-		.0f, 1.f,	0.f, 1.f, 0.f,
-		1.f, 1.f,	0.f, 0.f, 1.f,
-		.0f, .0f,	1.f, 0.f, 0.f,
-		1.f, 0.f,	0.f, 0.f, 0.f,
-		1.f, 1.f,	0.f, 0.f, 1.f
-	};
-
-	GLuint VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	//Position
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	//Color
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-	//Shader
-	const char* vertexShaderSource = R"(
-			#version 330 core
-			layout (location = 0) in vec2 aPos;
-			layout (location = 1) in vec3 aColor;
-			
-			out vec3 vertexColor;
-
-			void main() {
-				gl_Position = vec4(aPos, .0, 1.0);
-				vertexColor = aColor;
-			}
-		)";
-	const char* fragmentShaderSource = R"(
-			#version 330 core
-			in vec3 vertexColor;
-			out vec4 FragColor;
-
-			void main() {
-				FragColor = vec4(vertexColor, 1.0);
-			}
-		)";
-
-	char infoLog[512];
-	GLint success;
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "Vertex shader compilation failed: " << infoLog << std::endl;
-	}
-
-
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "Fragment shader compilation failed: " << infoLog << std::endl;
-	}
-
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "Program shader linking failed: " << infoLog << std::endl;
-	}
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
 }
 
 void Game::loadFont() {
@@ -222,7 +105,6 @@ void Game::handleEvents() {
 
 		case SDL_EVENT_WINDOW_RESIZED:
 			windowSize.set(event.window.data1, event.window.data2);
-			glViewport(0, 0, event.window.data1, event.window.data2); //Synchronize OpenGL viewport size
 			std::cout << windowSize << std::endl;
 			break;
 
@@ -270,17 +152,6 @@ void Game::render() {
 
 	//
 	SDL_RenderPresent(renderer);
-}
-
-void Game::renderGL() {
-	glClearColor(.2f, .2f, .2f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glUseProgram(shaderProgram);
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-
-	SDL_GL_SwapWindow(window);
 }
 
 void Game::clean() {

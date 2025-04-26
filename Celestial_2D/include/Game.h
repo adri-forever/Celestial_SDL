@@ -38,10 +38,6 @@ public:
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
 
-	SDL_GLContext glContext;
-	GLuint shaderProgram;
-	GLuint VAO;
-
 	void init(const char* title, int width, int height, SDL_WindowFlags flags);
 	void clean();
 
@@ -52,7 +48,6 @@ public:
 	void handleEvents();
 	void update(int framelength);
 	void render();
-	void renderGL();
 
 	bool running() const { return isRunning; };
 	Vector2<int> getWindowSize() const { return windowSize; };
