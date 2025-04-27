@@ -113,55 +113,23 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 			e.addComponent<SpriteComponent>("assets/tyler1.png");
 		}*/
 
-		glRenderer.use();
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 
 		glm::vec3 color1(1.f, 0.f, 0.f);
 		glm::vec3 color2(0.f, 1.f, 1.f);
 		auto& e1(entityManager.addEntity());
-		e1.addComponent<TransformComponent>(0., 0., 0.);
+		e1.addComponent<TransformComponent>(-.5, 0., 0.);
 		e1.addComponent<Mesh>(&glRenderer, color1);
 		std::cout << e1.getComponent<TransformComponent>().position << std::endl;
 
 		auto& e2(entityManager.addEntity());
-		e2.addComponent<TransformComponent>(1., 0., 0.);
+		e2.addComponent<TransformComponent>(.5, 0., 0.);
 		e2.addComponent<Mesh>(&glRenderer, color2);
 
 		//projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f);
 		projection = glm::perspective(glm::radians(90.f), (float)width / (float)height, 0.1f, 100.f);
 	}
-}
-
-void Game::setupTriangle() {
-	////GL "simple" triangle init
-	//	//Define triangle
-	//float vertices[] = {
-	//	//Pos		//Colors
-	//	.0f, .0f,	1.f, 0.f, 0.f,
-	//	.0f, 1.f,	0.f, 1.f, 0.f,
-	//	1.f, 0.f,	1.f, 1.f, 1.f,
-	//	1.f, 1.f,	0.f, 0.f, 1.f,
-	//};
-
-	//GLuint VBO;
-	//glGenVertexArrays(1, &VAO);
-	//glGenBuffers(1, &VBO);
-
-	//glBindVertexArray(VAO);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	////Position
-	//glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	//glEnableVertexAttribArray(0);
-	////Color
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-	//glEnableVertexAttribArray(1);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glBindVertexArray(0);
-
-	//glDeleteBuffers(1, &VBO);
 }
 
 void Game::loadFont() {
@@ -229,7 +197,7 @@ void Game::render() {
 	glRenderer.setMat4("projection", &projection[0][0]);
 
 
-	glm::vec3 cameraPos = glm::rotateY(glm::vec3(1.f, 1.f, 0.f), glm::radians((float)age));
+	glm::vec3 cameraPos = glm::rotateY(glm::vec3(1.5f, 1.5f, 0.f), glm::radians((float)age));
 	glm::vec3 cameraTarget(0.f, 0.f, 0.f);
 	glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 	glm::vec3 up(0.f, 1.f, 0.f);
