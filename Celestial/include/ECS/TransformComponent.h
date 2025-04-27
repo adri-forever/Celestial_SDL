@@ -1,18 +1,20 @@
 #ifndef TransformComponent_h
 #define TransformComponent_h
 
+#include <glm/glm.hpp>
+
 #include "ECS.h"
 #include "utils/Vector2_double.h"
 
 class TransformComponent : public Component {
 protected:
-	Vector2_double position;
+	/*Vector2_double position;
 	Vector2_double velocity;
 
-	int speed = 3;
+	int speed = 3;*/
 
 public:
-	TransformComponent() {
+	/*TransformComponent() {
 		position.setX(0);
 		position.setY(0);
 	}
@@ -42,6 +44,7 @@ public:
 		setY(y);
 	}
 	void printPos() { std::cout << position << std::endl; }
+	Vector2_double getPos() { return position; }
 
 	double getVx() { return velocity.getX(); }
 	double getVy() { return velocity.getY(); }
@@ -52,6 +55,12 @@ public:
 		setVy(vy);
 	}
 	void printVel() { std::cout << velocity << std::endl; }
+	Vector2_double getVel() { return velocity; }*/
+
+	TransformComponent() = default;
+	TransformComponent(double x, double y, double z) : position{ x,y,z } {}
+
+	glm::dvec3 position{ 0., 0., 0. };
 
 };
 

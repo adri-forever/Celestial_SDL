@@ -7,7 +7,7 @@ void KeyboardController::init() {
 }
 
 void KeyboardController::update() {
-	if (Game::event.type == SDL_EVENT_KEY_DOWN) {
+	/*if (Game::event.type == SDL_EVENT_KEY_DOWN) {
 		switch (Game::event.key.key) {
 		case SDLK_Z:
 			transform->setVy(-1);
@@ -39,7 +39,7 @@ void KeyboardController::update() {
 			transform->setVx(0);
 			break;
 		}
-	}
+	}*/
 
 	//transform->printPos();
 

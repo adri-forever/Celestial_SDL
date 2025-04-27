@@ -5,18 +5,19 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_image/SDL_image.h>
-#include <SDL3_gfxPrimitives.h>
+//#include <SDL3_gfxPrimitives.h>
 
 //OpenGL
 #include "glad/glad.h"
+#include "glm/glm.hpp"
 
 //std
 #include <iostream>
 
 //Project classes
-#include "TextureManager.h"
+#include "OpenGLRenderer.h"
+#include "utils/glUtils.h"
 #include "ECS/Components.h"
-#include "Camera.h"
 
 //Utils
 #include "utils/Vector2.h"
@@ -28,31 +29,29 @@ private:
 	SDL_Window* window;
 
 	TTF_Font* font{ nullptr };
-	
-	Camera camera;
 
 public:
 	Game();
 	~Game();
 
-	static SDL_Renderer* renderer;
-	static SDL_Event event;
+	int age = 0; //Age in frames
 
-	SDL_GLContext glContext;
-	GLuint shaderProgram;
-	GLuint VAO;
+	//static SDL_Renderer* renderer;
+	static SDL_Event event;
+	static EntityManager entityManager;
+	static OpenGLRenderer glRenderer;
+	
+	glm::mat4 projection;
 
 	void init(const char* title, int width, int height, SDL_WindowFlags flags);
 	void clean();
 
 	void loadFont();
-
 	void setupTriangle();
 
 	void handleEvents();
 	void update(int framelength);
 	void render();
-	void renderGL();
 
 	bool running() const { return isRunning; };
 	Vector2<int> getWindowSize() const { return windowSize; };

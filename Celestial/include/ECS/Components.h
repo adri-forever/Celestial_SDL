@@ -6,11 +6,8 @@
 
 #include "TransformComponent.h"
 
-#include "TextureComponent.h"
-#include "SpriteComponent.h"
-#include "TextComponent.h"
 #include "KeyboardController.h"
-#include "CircleComponent.h"
-#include "FilledCircleComponent.h"
+
+#include "Mesh.h"
 
 #endif // !Components_h

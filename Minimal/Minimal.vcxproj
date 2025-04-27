@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8f5b277c-8609-4b7b-bb58-654931362e3e}</ProjectGuid>
-    <RootNamespace>CelestialSDL</RootNamespace>
+    <ProjectGuid>{36d4ae7b-a431-4e26-ab2c-ba3a78a5b379}</ProjectGuid>
+    <RootNamespace>Minimal</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Celestial</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,14 +72,6 @@
     <Import Project="SDL_links.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\repo\SDL3-3.2.10\include;C:\repo\SDL3_image-3.2.4\include;C:\repo\SDL3_ttf-3.2.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\repo\SDL3-3.2.10\lib\x64;C:\repo\SDL3_image-3.2.4\lib\x64;C:\repo\SDL3_ttf-3.2.2\lib\x64;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\repo\SDL3-3.2.10\include;C:\repo\SDL3_image-3.2.4\include;C:\repo\SDL3_ttf-3.2.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\repo\SDL3-3.2.10\lib\x64;C:\repo\SDL3_image-3.2.4\lib\x64;C:\repo\SDL3_ttf-3.2.2\lib\x64;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -115,21 +106,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /D "$(ProjectDir)thirdparty\bin\*.dll" "$(OutDir)"
-xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
-    </PostBuildEvent>
-    <PreBuildEvent>
-      <Command>taskkill /f /fi "imagename eq $(TargetFileName)"</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -139,50 +120,17 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /D "$(ProjectDir)thirdparty\bin\*.dll" "$(OutDir)"
-xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Image Include="assets\evilfuckingskeleton.png" />
-    <Image Include="assets\tyler1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Celestial.cpp" />
-    <ClCompile Include="src\ECS\ECS.cpp" />
-    <ClCompile Include="src\ECS\KeyBoardController.cpp" />
-    <ClCompile Include="src\ECS\Mesh.cpp" />
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\OpenGLRenderer.cpp" />
-    <ClCompile Include="src\utils\glUtils.cpp" />
-    <ClCompile Include="src\utils\Vector2_double.cpp" />
-    <ClCompile Include="src\utils\Vector3_double.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="thirdparty\glad\src\glad.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="assets\font\segoeui.ttf" />
-    <Font Include="assets\font\segoeuib.ttf" />
-    <Font Include="assets\font\segoeuii.ttf" />
-    <Font Include="assets\font\segoeuil.ttf" />
-    <Font Include="assets\font\segoeuisl.ttf" />
-    <Font Include="assets\font\segoeuiz.ttf" />
-    <Font Include="assets\font\seguibl.ttf" />
-    <Font Include="assets\font\seguibli.ttf" />
-    <Font Include="assets\font\seguili.ttf" />
-    <Font Include="assets\font\seguisb.ttf" />
-    <Font Include="assets\font\seguisbi.ttf" />
-    <Font Include="assets\font\seguisli.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL_links.props" />
@@ -190,26 +138,13 @@ xcopy /E /I /Y /D "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     <None Include="thirdparty\bin\SDL3_gfx.dll" />
     <None Include="thirdparty\bin\SDL3_image.dll" />
     <None Include="thirdparty\bin\SDL3_ttf.dll" />
-    <None Include="TODO.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Camera.h" />
-    <ClInclude Include="include\ECS\Components.h" />
-    <ClInclude Include="include\ECS\ECS.h" />
-    <ClInclude Include="include\ECS\KeyboardController.h" />
-    <ClInclude Include="include\ECS\Mesh.h" />
-    <ClInclude Include="include\ECS\TransformComponent.h" />
-    <ClInclude Include="include\Game.h" />
-    <ClInclude Include="include\OpenGLRenderer.h" />
-    <ClInclude Include="include\utils\glUtils.h" />
-    <ClInclude Include="include\utils\Vector2.h" />
-    <ClInclude Include="include\utils\Vector2_double.h" />
-    <ClInclude Include="include\utils\Vector3_double.h" />
     <ClInclude Include="thirdparty\glad\include\glad\glad.h" />
     <ClInclude Include="thirdparty\glad\include\KHR\khrplatform.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="requirements.txt" />
+    <Font Include="segoeui.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,7 +5,7 @@
 Game* game = nullptr;
 
 int main(int argc, char* argv[]) {
-	const int framerate = 120; // FPS
+	const int framerate = 60; // FPS
 	const int framelength = 1000 / framerate; // ms
 
 	Uint32 frameStart;
@@ -19,8 +19,7 @@ int main(int argc, char* argv[]) {
 
 		game->handleEvents();
 		game->update(framelength);
-		//game->render();
-		game->renderGL();
+		game->render();
 
 		frameTime = SDL_GetTicks() - frameStart;
 		if (framelength > frameTime) {

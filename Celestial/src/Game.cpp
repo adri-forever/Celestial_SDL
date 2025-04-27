@@ -1,8 +1,14 @@
 #include "Game.h"
 
-SDL_Renderer* Game::renderer = nullptr; //this tells the compiler it needs to exist
-EntityManager entityManager;
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/string_cast.hpp"
+#include "glm/gtx/rotate_vector.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
+EntityManager Game::entityManager;
 SDL_Event Game::event;
+OpenGLRenderer Game::glRenderer;
 
 //Wacky init
 //auto& player(entityManager.addEntity());
@@ -44,10 +50,10 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 			//std::cout << "Requested flags: " << windowFlags << std::endl;
 		}
 
-		renderer = SDL_CreateRenderer(window, NULL);
+		/*renderer = SDL_CreateRenderer(window, NULL);
 		if (renderer) {
 			std::cout << "Renderer created" << std::endl;
-		}
+		}*/
 		 
 		if ((flags & SDL_WINDOW_OPENGL) != 0) {
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
@@ -57,7 +63,7 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 			SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-			glContext = SDL_GL_CreateContext(window);
+			SDL_GLContext glContext = SDL_GL_CreateContext(window);
 			if (glContext) {
 				std::cout << "OpenGL context created" << std::endl;
 			} else {
@@ -70,20 +76,21 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 			if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
 				std::cout << "GLAD loading error: " << SDL_GetError() << std::endl;
 			}
+
+			glRenderer.init(glContext);
 		} else {
 			std::cout << "OpenGL not requested" << std::endl;
 		}
 
 		isRunning = true;
 
-		loadFont();
+		//std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 
-		//by default make camera take the whole window
-		camera.onWindowResized(width, height);
+		//loadFont();
 
 		//player.addComponent<TransformComponent>(100, 100);
 
-		SDL_Color color{ 0x00, 0xFF, 0xFF, 0xFF };
+		//SDL_Color color{ 0x00, 0xFF, 0xFF, 0xFF };
 
 		//Texturing test
 		/*player.addComponent<TextureComponent>();
@@ -106,98 +113,55 @@ void Game::init(const char* title, int width, int height, SDL_WindowFlags flags)
 			e.addComponent<SpriteComponent>("assets/tyler1.png");
 		}*/
 
-		setupTriangle();
+		glRenderer.use();
+
+		glm::vec3 color1(1.f, 0.f, 0.f);
+		glm::vec3 color2(0.f, 1.f, 1.f);
+		auto& e1(entityManager.addEntity());
+		e1.addComponent<TransformComponent>(0., 0., 0.);
+		e1.addComponent<Mesh>(&glRenderer, color1);
+		std::cout << e1.getComponent<TransformComponent>().position << std::endl;
+
+		auto& e2(entityManager.addEntity());
+		e2.addComponent<TransformComponent>(1., 0., 0.);
+		e2.addComponent<Mesh>(&glRenderer, color2);
+
+		//projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f);
+		projection = glm::perspective(glm::radians(90.f), (float)width / (float)height, 0.1f, 100.f);
 	}
 }
 
 void Game::setupTriangle() {
-	//GL "simple" triangle init
-		//Define triangle
-	float vertices[] = {
-		//Pos		//Colors
-		.0f, .0f,	1.f, 0.f, 0.f,
-		.0f, 1.f,	0.f, 1.f, 0.f,
-		1.f, 1.f,	0.f, 0.f, 1.f,
-		.0f, .0f,	1.f, 0.f, 0.f,
-		1.f, 0.f,	0.f, 0.f, 0.f,
-		1.f, 1.f,	0.f, 0.f, 1.f
-	};
+	////GL "simple" triangle init
+	//	//Define triangle
+	//float vertices[] = {
+	//	//Pos		//Colors
+	//	.0f, .0f,	1.f, 0.f, 0.f,
+	//	.0f, 1.f,	0.f, 1.f, 0.f,
+	//	1.f, 0.f,	1.f, 1.f, 1.f,
+	//	1.f, 1.f,	0.f, 0.f, 1.f,
+	//};
 
-	GLuint VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	//GLuint VBO;
+	//glGenVertexArrays(1, &VAO);
+	//glGenBuffers(1, &VBO);
 
-	glBindVertexArray(VAO);
+	//glBindVertexArray(VAO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	//Position
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	//Color
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	////Position
+	//glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	//glEnableVertexAttribArray(0);
+	////Color
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	//glEnableVertexAttribArray(1);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindVertexArray(0);
 
-	//Shader
-	const char* vertexShaderSource = R"(
-			#version 330 core
-			layout (location = 0) in vec2 aPos;
-			layout (location = 1) in vec3 aColor;
-			
-			out vec3 vertexColor;
-
-			void main() {
-				gl_Position = vec4(aPos, .0, 1.0);
-				vertexColor = aColor;
-			}
-		)";
-	const char* fragmentShaderSource = R"(
-			#version 330 core
-			in vec3 vertexColor;
-			out vec4 FragColor;
-
-			void main() {
-				FragColor = vec4(vertexColor, 1.0);
-			}
-		)";
-
-	char infoLog[512];
-	GLint success;
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "Vertex shader compilation failed: " << infoLog << std::endl;
-	}
-
-
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "Fragment shader compilation failed: " << infoLog << std::endl;
-	}
-
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "Program shader linking failed: " << infoLog << std::endl;
-	}
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	//glDeleteBuffers(1, &VBO);
 }
 
 void Game::loadFont() {
@@ -253,62 +217,60 @@ void Game::handleEvents() {
 void Game::update(int framelength) {
 	entityManager.refresh();
 	entityManager.update();
+
+	age++;
 }
 
 void Game::render() {
-	SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
-	SDL_RenderClear(renderer);
-	//
-
-	// Render all the layers in the right order based on groups
-	for (auto& t : groupOrder) {
-		for (auto& e : entityManager.getGroup(t)) {
-			e->render();
-		}
-	}
-	//Groupless entities will not be rendered
-
-	//
-	SDL_RenderPresent(renderer);
-}
-
-void Game::renderGL() {
-	glClearColor(.2f, .2f, .2f, 1.0f);
+	//Set empty color & clear
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glUseProgram(shaderProgram);
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glRenderer.use();
+	glRenderer.setMat4("projection", &projection[0][0]);
+
+
+	glm::vec3 cameraPos = glm::rotateY(glm::vec3(1.f, 1.f, 0.f), glm::radians((float)age));
+	glm::vec3 cameraTarget(0.f, 0.f, 0.f);
+	glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+	glm::vec3 up(0.f, 1.f, 0.f);
+
+	glm::mat4 view = glm::lookAt(cameraPos, cameraTarget, up);
+	//glm::mat4 view = glm::mat4(1.f);
+	glRenderer.setMat4("view", &view[0][0]);
+	//std::cout << "View matrix: " << glm::to_string(view) << std::endl;
+
+	std::cout << "Camera Position: " << cameraPos << std::endl;
+	std::cout << "Camera Target: " << cameraTarget << std::endl;
+
+	entityManager.render();
 
 	SDL_GL_SwapWindow(window);
 }
 
 void Game::clean() {
-
-	//cleanEntities();
+	/*glDeleteProgram(shaderProgram);
+	glDeleteVertexArrays(1, &VAO);*/
 	
 	TTF_CloseFont(font);
 	TTF_Quit();
 
 	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
+	//SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	std::cout << "Travail termine !" << std::endl;
 }
 
 void Game::toggleCursor() {
-	//toggleCursor(!SDL_GetWindowRelativeMouseMode(window));
 	toggleCursor(!SDL_CursorVisible());
 }
 
 void Game::toggleCursor(bool state) {
 	if (state) {
+		SDL_WarpMouseInWindow(window, windowSize.getX()/2, windowSize.getY()/2);
 		SDL_ShowCursor();
 		SDL_SetWindowMouseGrab(window, false);
 	} else {
 		SDL_HideCursor();
 		SDL_SetWindowMouseGrab(window, true);
 	}
-	/*std::cout << "Toggling cursor (" << state << ")" << std::endl;
-	if (!SDL_SetWindowRelativeMouseMode(window, state)) { std::cout << "Error when hiding mouse: " << SDL_GetError() << std::endl; }*/
 }
